@@ -7,3 +7,22 @@
 # - resources (optional)
 #
 # Hint: The Python server listens on port 8080
+
+image:
+  repository: dhi.io/python
+  tag: "3.14"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+  requests:
+    cpu: "250m"
+    memory: "256Mi"

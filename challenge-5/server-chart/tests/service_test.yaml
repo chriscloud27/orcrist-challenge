@@ -1,0 +1,29 @@
+suite: service values wiring
+templates:
+  - service.yaml
+tests:
+  - it: uses default service values
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: spec.type
+          value: ClusterIP
+      - equal:
+          path: spec.ports[0].port
+          value: 8080
+      - equal:
+          path: spec.ports[0].targetPort
+          value: http
+
+  - it: allows overriding service type and port
+    set:
+      service.type: NodePort
+      service.port: 9090
+    asserts:
+      - equal:
+          path: spec.type
+          value: NodePort
+      - equal:
+          path: spec.ports[0].port
+          value: 9090

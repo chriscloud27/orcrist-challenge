@@ -1,0 +1,29 @@
+suite: deployment values wiring
+templates:
+  - deployment.yaml
+tests:
+  - it: uses default deployment values
+    asserts:
+      - isKind:
+          of: Deployment
+      - equal:
+          path: spec.replicas
+          value: 1
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: dhi.io/python:3.14
+      - equal:
+          path: spec.template.spec.containers[0].imagePullPolicy
+          value: IfNotPresent
+
+  - it: allows overriding image tag and replicas
+    set:
+      image.tag: latest
+      replicaCount: 2
+    asserts:
+      - equal:
+          path: spec.replicas
+          value: 2
+      - equal:
+          path: spec.template.spec.containers[0].image
+          value: dhi.io/python:latest
